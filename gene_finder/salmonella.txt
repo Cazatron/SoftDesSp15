@@ -1,0 +1,15 @@
+Findings from sample S. enterica sequence
+
+1. Salmonella enterica subsp. enterica serovar Inverness str. R8-3668. Virulent. Cytolethal distending toxin subunit B or a toxin homologue associated with a different serovar. Also associated with decreased protamine resistance but this is not a factor conducive to virulence.
+
+2. [49%] Bacillus subtilis subsp. subtilis str. 168. Flagellar function.
+
+3. [27%] Moorella thermoacetica Y72. Enzymes in reductive acetyl-CoA pathway?
+
+4. Salmonella enterica. Not unique to Salmonella; common.
+
+5. Salmonella enterica subsp. enteric serovar Montevideo str. CASC_09SCPH15965. Hypothetical protein sequence. Function unknown. 
+
+6. [64%] Escherichia coli. Not unique to Salmonella; common.
+
+7. Salmonella enterica subsp. enterica serovar Newport str. RI_10P078. Function unknown.
