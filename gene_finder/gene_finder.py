@@ -194,7 +194,7 @@ def longest_ORF_noncoding(dna, num_trials):
         dnb = shuffle_string(dna)
         longer.append(longest_ORF(dnb))
 
-    return findLongest(longer)
+    return len(findLongest(longer))
 
     pass
 
@@ -238,10 +238,12 @@ def gene_finder(dna, threshold):
 
     return res
 
-#d = gene_finder(tester, 30)
-#print d
-#f = coding_strand_to_AA(d[1])
-#print f
+d = gene_finder(tester, 4000)
+print d
+f = coding_strand_to_AA(d[1])
+print f
+
+print longest_ORF_noncoding(tester,20)
 
 if __name__ == "__main__":
     import doctest
