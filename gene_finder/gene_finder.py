@@ -238,12 +238,12 @@ def gene_finder(dna, threshold):
 
     return res
 
-d = gene_finder(tester, 4000)
-print d
-f = coding_strand_to_AA(d[1])
-print f
+#d = gene_finder(tester, 4000)
+#print d
+#f = coding_strand_to_AA(d[1])
+#print f
 
-print longest_ORF_noncoding(tester,20)
+#print longest_ORF_noncoding(tester,20)
 
 if __name__ == "__main__":
     import doctest
