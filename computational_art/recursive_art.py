@@ -1,22 +1,39 @@
-""" TODO: Put your header comment here """
+""" 20150212. Author: Cazatron """
 
 import random
+from random import randint
+from math import *
 from PIL import Image
 
 
 def build_random_function(min_depth, max_depth):
     """ Builds a random function of depth at least min_depth and depth
-        at most max_depth (see assignment writeup for definition of depth
-        in this context)
+        at most max_depth
 
         min_depth: the minimum depth of the random function
         max_depth: the maximum depth of the random function
         returns: the randomly generated function represented as a nested list
-                 (see assignment writeup for details on the representation of
-                 these functions)
     """
-    # TODO: implement this
-    pass
+    
+    Possible = ["prod", "avg", "sinPi", "cosPi", "tan", "square", "x", "y"]
+    indx = 0
+    
+    if min_depth > 0:
+        indx = randint(0, 5)
+    elif min_depth <= 0 & max_depth > 0:
+        indx = randint(0, 7)
+    elif max_depth <= 0:
+        indx = randint(6, 7)
+
+    if indx in range(0, 2):     #prod or avg. need two inputs.
+        return [Possible[indx], build_random_function(min_depth-1, max_depth-1), build_random_function(min_depth-1, max_depth-1)]
+    elif indx in range(2, 6):   #sin, cos, tan, or square. need one input.
+        return [Possible[indx], build_random_function(min_depth-1, max_depth-1)]
+    elif indx == 6:             #x or y. no inputs.
+        return [Possible[6]]
+    else:
+        return [Possible[7]]
+    
 
 
 def evaluate_random_function(f, x, y):
@@ -33,8 +50,24 @@ def evaluate_random_function(f, x, y):
         >>> evaluate_random_function(["y"],0.1,0.02)
         0.02
     """
-    # TODO: implement this
-    pass
+    
+    
+    if f[0] == 'prod':
+        return evaluate_random_function(f[1], x, y)*evaluate_random_function(f[2], x, y)
+    elif f[0] == 'avg':
+        return (evaluate_random_function(f[1], x, y)+evaluate_random_function(f[2], x, y))/2
+    elif f[0] == 'sinPi':
+        return sin(pi*evaluate_random_function(f[1], x, y))
+    elif f[0] == 'cosPi':
+        return cos(pi*evaluate_random_function(f[1], x, y))
+    elif f[0] == 'tan':
+        return tan(evaluate_random_function(f[1], x, y))
+    elif f[0] == 'square':
+        return x**2
+    elif f[0] == 'x':
+        return x
+    elif f[0] == 'y':
+        return y
 
 
 def remap_interval(val, input_interval_start, input_interval_end, output_interval_start, output_interval_end):
@@ -43,14 +76,10 @@ def remap_interval(val, input_interval_start, input_interval_end, output_interva
         the output interval [output_interval_start, output_interval_end].
 
         val: the value to remap
-        input_interval_start: the start of the interval that contains all
-                              possible values for val
-        input_interval_end: the end of the interval that contains all possible
-                            values for val
-        output_interval_start: the start of the interval that contains all
-                               possible output values
-        output_inteval_end: the end of the interval that contains all possible
-                            output values
+        input_interval_start: the start of the interval that contains all possible values for val
+        input_interval_end: the end of the interval that contains all possible values for val
+        output_interval_start: the start of the interval that contains all possible output values
+        output_interval_end: the end of the interval that contains all possible output values
         returns: the value remapped from the input to the output interval
 
         >>> remap_interval(0.5, 0, 1, 0, 10)
@@ -60,8 +89,13 @@ def remap_interval(val, input_interval_start, input_interval_end, output_interva
         >>> remap_interval(5, 4, 6, 1, 2)
         1.5
     """
-    # TODO: implement this
-    pass
+
+    delta1 = float(input_interval_end) - float(input_interval_start)
+    ratio = (float(val) - float(input_interval_start))/delta1
+    delta2 = float(output_interval_end) - float(output_interval_start)
+    newval = ratio * delta2 + float(output_interval_start)
+    return newval
+    
 
 
 def color_map(val):
@@ -98,11 +132,12 @@ def test_image(filename, x_size=350, y_size=350):
         for j in range(y_size):
             x = remap_interval(i, 0, x_size, -1, 1)
             y = remap_interval(j, 0, y_size, -1, 1)
-            pixels[i, j] = (random.randint(0, 255),  # Red channel
-                            random.randint(0, 255),  # Green channel
-                            random.randint(0, 255))  # Blue channel
+            pixels[i, j] = (randint(0, 200),  # Red channel
+                            randint(100, 155),  # Green channel
+                            randint(55, 100))  # Blue channel
 
     im.save(filename)
+
 
 
 def generate_art(filename, x_size=350, y_size=350):
@@ -112,9 +147,9 @@ def generate_art(filename, x_size=350, y_size=350):
         x_size, y_size: optional args to set image dimensions (default: 350)
     """
     # Functions for red, green, and blue channels - where the magic happens!
-    red_function = ["x"]
-    green_function = ["y"]
-    blue_function = ["x"]
+    red_function = build_random_function(7, 9)
+    green_function = build_random_function(7, 9)
+    blue_function = build_random_function(7, 9)
 
     # Create image and loop over all pixels
     im = Image.new("RGB", (x_size, y_size))
@@ -131,6 +166,7 @@ def generate_art(filename, x_size=350, y_size=350):
 
     im.save(filename)
 
+generate_art('umcool.png')
 
 if __name__ == '__main__':
     import doctest
