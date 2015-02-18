@@ -49,6 +49,8 @@ def evaluate_random_function(f, x, y):
         -0.5
         >>> evaluate_random_function(["y"],0.1,0.02)
         0.02
+        >>> evaluate_random_function(["sinPi", ["square", ("prod", ("prod", ["x"], ["y"]), ("prod", ["x"], ["y"]))]], 0.707, 0.707)
+        0.9999998874815771
     """
     
     
@@ -171,12 +173,3 @@ generate_art('umcool.png')
 if __name__ == '__main__':
     import doctest
     doctest.testmod()
-
-    # Create some computational art!
-    # TODO: Un-comment the generate_art function call after you
-    #       implement remap_interval and evaluate_random_function
-    #generate_art("myart.png")
-
-    # Test that PIL is installed correctly
-    # TODO: Comment or remove this function call after testing PIL install
-    test_image("noise.png")
