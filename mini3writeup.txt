@@ -1,0 +1,20 @@
+﻿Caz Nichols
+Alien Markov Chain Generator
+
+Overview:
+I used the Wikipedia page for Jupiter as my source and processed it into separate words. I then used a dictionary to map two-word combinations to all the words that succeeded them, creating dictionary values that I could search randomly for the most likely next word. For fun, I also replaced a bunch of random nouns with cool space nouns.
+
+Implementation:
+First, since unicode errors didn't allow me to read imported Wikipedia pages, I pasted some edited text as an input string (at the top of my program, commented out, is the sequence I would have used to load the text from Wikipedia, if not for the unicode error). I replaced selected words, split the text into words, and then removed punctuation. The list of words is then passed into a function that makes a dictionary with the format “<string of two words>”: “<list of all words that have come after this combination>”. The dictionary is passed into the function that generates the Markov chain itself. I almost used the list.extend() function to add elements to the list values inside the dictionary, but figured out that list.append() makes more sense.
+
+Results:
+“the primordial zhrdekite nebula zoon in the zhrdekite system combined zorgx is composed primarily of gaseous and liquid matter it is the second highest of the four minxkian planets zorgx's upper atmosphere”
+
+So I don't have coherent Markov chains, but they are very interesting! This one has especially mystifying syntax, which fits with the alien words I put in. I ended up being surprised by how little syntactical coherency the Markov chains had—I thought there would be limited enough selection with two antecedent words that it would be mostly identical to passages from the original text.
+
+And another one for the road:
+“zlemoks at its equator the outer atmosphere is approximately 75% dagstangen and roemium are close to the theoretical composition of the number of molecules”
+
+
+Reflection:
+I definitely wish I'd had more time, so I could have cleaned up my functions and actually implemented them as functions in different places. My program is pretty illegible and I didn't have time to doc test. Unit testing was kind of haphazard but it ended up working okay. In future I'll definitely try harder to comment my code as I go along, and to use informative variable names, because not doing that made it several times more difficult for me to figure out what my code was supposed to be doing.
