@@ -1,0 +1,4 @@
+1. The general trend in the curve is toward more accuracy as the percentage used for training grows.
+2. The bottom of the curve seems to have more noise because when the computer doesn't have as much training its identifications are more random.
+3. Honestly I can't get a smooth curve no matter how many trials I use! After about 200 it stops making any difference.
+4. The closer C is to 1, the closer the graph is to a straight line. At very low values of C (~10**-15) the upper right portion of the graph gets noisier as well.
