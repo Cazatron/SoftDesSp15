@@ -6,9 +6,6 @@ http://deap.readthedocs.org
 
 Usage:
     python evolve_text.py [goal_message]
-
-Full instructions are at:
-https://sites.google.com/site/sd15spring/home/project-toolbox/evolutionary-algorithms
 """
 
 import random
@@ -43,7 +40,6 @@ class FitnessMinimizeSingle(base.Fitness):
     """
     weights = (-1.0, )
 
-
 class Message(list):
     """
     Representation of an individual Message within the population to be evolved
@@ -75,9 +71,7 @@ class Message(list):
 
     def __repr__(self):
         """Return a string representation of the Message"""
-        # Note: __repr__ (if it exists) is called by __str__. It should provide
-        #       the most unambiguous representation of the object possible, and
-        #       ideally eval(repr(obj)) == obj
+        # Note: __repr__ (if it exists) is called by __str__. It should provide the most unambiguous representation of the object possible, and ideally eval(repr(obj)) == obj
         # See also: http://stackoverflow.com/questions/1436703
         template = '{cls}({val!r})'
         return template.format(cls=self.__class__.__name__,     # "Message"
@@ -92,8 +86,22 @@ class Message(list):
 # Genetic operators
 #-----------------------------------------------------------------------------
 
-# TODO: Implement levenshtein_distance function (see Day 9 in-class exercises)
-# HINT: Now would be a great time to implement memoization if you haven't
+known = {}
+
+def levenshtein_distance(input1, input2):
+    """takes two input strings and returns the levenshtein distance between them, ie, how many changes need to be made for them to be identical"""
+    if len(input1) == 0:
+        return len(input2)
+    if len(input2) == 0:
+        return len(input1)
+
+    if (input1, input2) in known:
+        return known[(input1, input2)]
+
+    res = min([int(input1[0] != input2[0]) + levenshtein_distance(input1[1:],input2[1:]), 1+levenshtein_distance(input1[1:],input2), 1+levenshtein_distance(input1,input2[1:])])
+
+    known[(input1, input2)] = res
+    return res
 
 def evaluate_text(message, goal_text, verbose=VERBOSE):
     """
@@ -107,7 +115,7 @@ def evaluate_text(message, goal_text, verbose=VERBOSE):
     return (distance, )     # Length 1 tuple, required by DEAP
 
 
-def mutate_text(message, prob_ins=0.05, prob_del=0.05, prob_sub=0.05):
+def mutate_text(message, prob_ins=0.1, prob_del=0.1, prob_sub=0.1):
     """
     Given a Message and independent probabilities for each mutation type,
     return a length 1 tuple containing the mutated Message.
@@ -121,13 +129,17 @@ def mutate_text(message, prob_ins=0.05, prob_del=0.05, prob_sub=0.05):
     """
 
     if random.random() < prob_ins:
-        # TODO: Implement insertion-type mutation
-        pass
+        insert_location = random.randint(0, len(message))
+        message.insert(insert_location, random.choice(VALID_CHARS))
 
-    # TODO: Also implement deletion and substitution mutations
-    # HINT: Message objects inherit from list, so they also inherit
-    #       useful list methods
-    # HINT: You probably want to use the VALID_CHARS global variable
+    if random.random() < prob_del:
+        delete_location = random.randint(0, len(message)-1)
+        message.pop(delete_location)
+
+    if random.random() < prob_sub:
+        substitute_location = random.randint(0, len(message)-1)
+        message.pop(substitute_location)
+        message.insert(substitute_location, random.choice(VALID_CHARS))
 
     return (message, )   # Length 1 tuple, required by DEAP
 
@@ -171,6 +183,8 @@ def evolve_string(text):
     # Get configured toolbox and create a population of random Messages
     toolbox = get_toolbox(text)
     pop = toolbox.population(n=300)
+    #for i in range(0, len(pop)-1):
+     #   pop[i] = Message('THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG')
 
     # Collect statistics as the EA runs
     stats = tools.Statistics(lambda ind: ind.fitness.values)
@@ -184,7 +198,7 @@ def evolve_string(text):
     pop, log = algorithms.eaSimple(pop,
                                    toolbox,
                                    cxpb=0.5,    # Prob. of crossover (mating)
-                                   mutpb=0.2,   # Probability of mutation
+                                   mutpb=0.5,   # Probability of mutation
                                    ngen=500,    # Num. of generations to run
                                    stats=stats)
 

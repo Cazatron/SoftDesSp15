@@ -1,0 +1,29 @@
+﻿Caz Nichols
+Results for evolutionary algorithms toolbox
+
+Normal results (probability of mutation = 0.2, probability of mating = 0.5, generations = 500): The population evolved to the target string within about 450 generations.
+
+Changed number of generations from 500 to 300: stats showed that variation was still very high within the population, and none of the individuals evolved to the target string.
+
+Started with monoculture ('THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG'): there was no change at all for many generations, and then a few completely random strings showed up and introduced genetic variation. It didn't change the number of generations it took to reach the target string.
+
+(cxpb=0.5)
+Probability of mutation = 0.3: The population evolved to the target string within about 450 generations.
+Probability of mutation = 0.4: The population evolved to the target string within about 200 generations.
+Probability of mutation = 0.5: The population evolved to the target string within less than 100 generations!
+Probability of mutation = 0.6: The population evolved to the target string within about 200 generations
+Probability of mutation = 0.7: The population evolved to the target string within about 200 generations
+Probability of mutation = 0.9: The population evolved to the target string within about 150 generations
+Probability of mutation = 1: The population evolved to the target string within about 150 generations
+
+(experiments run for a maximum of 500 generations; mutpb=0.2)
+Probability of mating = 0.1: The population never evolved to the target string.
+Probability of mating = 0.2: The population evolved to the target string within about 400 generations.
+Probability of mating = 0.3: The population never evolved to the target string.
+Probability of mating = 0.4: The population evolved to the target string within about 250 generations.
+Probability of mating = 0.5: The population evolved to the target string within about 450 generations.
+Probability of mating = 0.6: The population never evolved to the target string.
+Probability of mating = 0.7: The population never evolved to the target string.
+Probability of mating = 1: The population never evolved to the target string.
+
+This is really weird, because it shows no linear correlation between probability of mating and how fast the strings evolve! It seems like the best values (to the nearest 0.1 anyway) are cxpb=0.4, mutpb=0.5.
